@@ -66,6 +66,8 @@ namespace TL.Web.UI.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            var roles = new List<object> { new { Id = 1, Name = "Admin" }, new { Id = 2, Name = "Agent" } };
+            ViewBag.Roles = roles;
             return View();
         }
 
@@ -76,6 +78,8 @@ namespace TL.Web.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            var roles = new List<object> { new { Id = 1, Name = "Admin" }, new { Id = 2, Name = "Agent" } };
+            ViewBag.Roles = roles;
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser() { UserName = model.UserName };
@@ -378,7 +382,8 @@ namespace TL.Web.UI.Controllers
 
         private class ChallengeResult : HttpUnauthorizedResult
         {
-            public ChallengeResult(string provider, string redirectUri) : this(provider, redirectUri, null)
+            public ChallengeResult(string provider, string redirectUri)
+                : this(provider, redirectUri, null)
             {
             }
 

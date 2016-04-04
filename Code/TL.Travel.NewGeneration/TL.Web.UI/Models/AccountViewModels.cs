@@ -59,5 +59,11 @@ namespace TL.Web.UI.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Display(Name = "Role")]
+        public int RoleId { get; set; }
     }
 }
