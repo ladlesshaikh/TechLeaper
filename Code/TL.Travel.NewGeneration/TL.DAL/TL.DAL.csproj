@@ -49,7 +49,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\RepositoryBase.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="ORM\AspNetRole.cs">
       <DependentUpon>TravelORM.tt</DependentUpon>
