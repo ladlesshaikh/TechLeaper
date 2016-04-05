@@ -13,10 +13,10 @@ namespace TL.DAL.ORM
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class TravelDataContainer : DbContext
+    public partial class TravelManagementEntities : DbContext
     {
-        public TravelDataContainer()
-            : base("name=TravelDataContainer")
+        public TravelManagementEntities()
+            : base("name=TravelManagementEntities")
         {
         }
     
@@ -25,6 +25,7 @@ namespace TL.DAL.ORM
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Agent> Agents { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }

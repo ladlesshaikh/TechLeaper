@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="navbar-collapse collapse">
+    <div class="dropdown">
+        <button class="dropbtn">Dashboard</button>
+        <div class="dropdown-content">
+            <ui>
+                <a>Bookings</a>
+                <a>Cancellation</a>
+                <a>Inquiry</a>
+                <a>Agent</a>
+
+                @*<li> @Html.ActionLink("Total bookings", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Route Wise Report", "Index", "Home")</li>
+                    <li> @Html.ActionLink("User Wise Collection", "Index", "Home")</li>
+                    <li> @Html.ActionLink("Auto Cancellation", "Index", "Home")</li>
+                    <li> @Html.ActionLink("Cancellation", "Index", "Home")</li>
+                    <li> @Html.ActionLink("Branch Wise Inquiry", "Index", "Home")</li>
+                    <li> @Html.ActionLink("Subroute Wise Inquiry", "Index", "Home")</li>
+                    <li> @Html.ActionLink("Booking Summary", "Index", "Home")</li>
+                    <li> @Html.ActionLink("Pickup Wise Inquiry", "Index", "Home")</li>
+                    <li> @Html.ActionLink("Seat Wise Inquiry", "Index", "Home")</li>
+                    <li> @Html.ActionLink("Passenger List Inquiry", "Index", "Home")</li>
+                    <li> @Html.ActionLink("Agent Voucher", "Index", "Home")</li>
+                    <li> @Html.ActionLink("Branch Collection", "Index", "Home")</li>
+                    <li> @Html.ActionLink("Ticket wise collection", "Index", "Home")</li>*@
+            </ui>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="dropbtn">Registeration</button>
+        <div class="dropdown-content">
+            <ui>
+                <li> @Html.ActionLink("Travel Agency Registration", "Index", "Home")</li>
+                <li>  @Html.ActionLink("Bus Registration", "About", "Home")</li>
+                <li>@Html.ActionLink("Branch Registration", "Contact", "Home")</li>
+                <li>@Html.ActionLink("Employee Registration", "Contact", "Home")</li>
+                <li>@Html.ActionLink("Agent Registration", "Contact", "Home")</li>
+            </ui>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="dropbtn">Taxation</button>
+        <div class="dropdown-content">
+            <ui>
+                <li> @Html.ActionLink("Service tax", "Index", "Home")</li>
+            </ui>
+        </div>
+    </div>
+</div>
+

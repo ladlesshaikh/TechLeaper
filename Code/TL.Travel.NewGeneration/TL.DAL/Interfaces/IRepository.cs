@@ -40,12 +40,19 @@ namespace TL.DAL
         /// 
         /// </summary>
         /// <param name="entity"></param>
-        void Save(T entity);
+        bool Add(T entity);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entiry"></param>
+        /// <returns></returns>
+        bool Update(T entiry);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="entity"></param>
-        void Delete(T entity);
+        bool Delete(T entity);
     }
 }

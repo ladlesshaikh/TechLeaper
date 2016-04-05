@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using TL.Web.UI.Models;
+using TL.BL.Managers;
+using TL.Models;
 
 namespace TL.Web.UI.Controllers
 {
@@ -16,14 +18,31 @@ namespace TL.Web.UI.Controllers
     public class AccountController : Controller
     {
         public AccountController()
-            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            //: this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            : this(new UserInfoManager().GetUserManager)
         {
         }
 
         public AccountController(UserManager<ApplicationUser> userManager)
         {
             UserManager = userManager;
+            UserHelper.SetupRoles();
+            var existinguser = UserManager.FindByName("test");
+            if (null == existinguser)
+            {
+                var user = new ApplicationUser() { UserName = "test" };
+                var result = UserManager.Create(user, "test123$");
+            }
+            existinguser = UserManager.FindByName("test");
+            if (null != existinguser)
+            {
+                if (!UserManager.IsInRole(existinguser.Id, "Admin"))
+                {
+                    UserManager.AddToRole(existinguser.Id, "Admin");
+                }
+            }
         }
+
 
         public UserManager<ApplicationUser> UserManager { get; private set; }
 
@@ -32,6 +51,7 @@ namespace TL.Web.UI.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            ViewBag.Roles = UserHelper.GetUserRoles();
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -43,12 +63,23 @@ namespace TL.Web.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            ViewBag.Roles = UserHelper.GetUserRoles();
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindAsync(model.UserName, model.Password);
-                if (user != null)
+                if (user != null && UserManager.IsInRole(user.Id, model.RoleId))
                 {
                     await SignInAsync(user, model.RememberMe);
+                    if (string.IsNullOrEmpty(returnUrl))
+                    {
+                        switch (model.RoleId)
+                        {
+                            case "Admin":
+                                return RedirectToAction("Index", "Admin");
+                            case "Agent":
+                                return RedirectToAction("Index", "Agent");
+                        }
+                    }
                     return RedirectToLocal(returnUrl);
                 }
                 else
@@ -66,8 +97,7 @@ namespace TL.Web.UI.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            var roles = new List<object> { new { Id = 1, Name = "Admin" }, new { Id = 2, Name = "Agent" } };
-            ViewBag.Roles = roles;
+            ViewBag.Roles = UserHelper.GetUserRoles();
             return View();
         }
 
@@ -78,8 +108,7 @@ namespace TL.Web.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            var roles = new List<object> { new { Id = 1, Name = "Admin" }, new { Id = 2, Name = "Agent" } };
-            ViewBag.Roles = roles;
+            ViewBag.Roles = UserHelper.GetUserRoles();
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser() { UserName = model.UserName };

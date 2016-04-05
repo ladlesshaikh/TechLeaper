@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using TL.DAL.ORM;
 
 namespace TL.DAL
 {
@@ -12,7 +13,7 @@ namespace TL.DAL
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class RepositoryBase<T> : IRepository<T> where T:class
+    public class RepositoryBase<T> : IDisposable, IRepository<T> where T : class
     {
         #region Local resource declarations
         /// <summary>
@@ -26,42 +27,102 @@ namespace TL.DAL
         /// 
         /// </summary>
         /// <param name="context"></param>
-        public RepositoryBase(DbContext context)
+        public RepositoryBase(TravelManagementEntities context)
         {
             dbContext = context;
         }
         #endregion
 
         #region IRepository<T> implimentation
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public T Get(string Id)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            var se = dbContext.Set<T>().First();
+            return dbContext.Set<T>().ToList();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
         public T Find(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return dbContext.Set<T>().Find(predicate);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
         public IEnumerable<T> FindAll(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return dbContext.Set<T>().Where(predicate);
         }
 
-        public void Save(T entity)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool Add(T entity)
         {
-            throw new NotImplementedException();
+            var retVal = false;
+            dbContext.Set<T>().Add(entity);
+            var rowsAffected = dbContext.SaveChanges();
+            retVal = rowsAffected > 0;
+            return retVal;
         }
 
-        public void Delete(T entity)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool Update(T entity)
         {
-            throw new NotImplementedException();
+            var retVal = false;
+            dbContext.Set<T>().Add(entity);
+            dbContext.Entry<T>(entity).State = System.Data.Entity.EntityState.Modified;
+            var rowsAffected = dbContext.SaveChanges();
+            retVal = rowsAffected > 0;
+            return retVal;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool Delete(T entity)
+        {
+            var retVal = false;
+            dbContext.Set<T>().Remove(entity);
+            var rowsAffected = dbContext.SaveChanges();
+            retVal = rowsAffected > 0;
+            return retVal;
         }
         #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void Dispose()
+        {
+        }
     }
 }

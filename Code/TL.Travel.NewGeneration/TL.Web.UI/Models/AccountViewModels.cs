@@ -28,7 +28,16 @@ namespace TL.Web.UI.Models
         public string ConfirmPassword { get; set; }
     }
 
-    public class LoginViewModel
+    /// <summary>
+    /// 
+    /// </summary>
+    public class UserRoleViewModel
+    {
+        [Display(Name = "Role")]
+        public string RoleId { get; set; }
+    }
+
+    public class LoginViewModel : UserRoleViewModel
     {
         [Required]
         [Display(Name = "User name")]
@@ -43,7 +52,7 @@ namespace TL.Web.UI.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
+    public class RegisterViewModel : UserRoleViewModel
     {
         [Required]
         [Display(Name = "User name")]
@@ -59,11 +68,5 @@ namespace TL.Web.UI.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [Display(Name = "Role")]
-        public int RoleId { get; set; }
     }
 }

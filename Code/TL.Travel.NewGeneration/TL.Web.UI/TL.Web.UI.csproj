@@ -159,10 +159,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -214,6 +217,8 @@
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Agent\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -224,6 +229,24 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TL.BL\TL.BL.csproj">
+      <Project>{3b397ee2-0e5f-42a9-85ac-653843bebed0}</Project>
+      <Name>TL.BL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TL.DAL\TL.DAL.csproj">
+      <Project>{f8f3b04e-bcba-46e8-8726-958cec71018a}</Project>
+      <Name>TL.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TL.Instrumentation\TL.Instrumentation.csproj">
+      <Project>{b9383944-96f5-497c-bd74-c0e201f85b8c}</Project>
+      <Name>TL.Instrumentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TL.Models\TL.Models.csproj">
+      <Project>{94c73005-68ec-4c1f-8913-136601f53928}</Project>
+      <Name>TL.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
